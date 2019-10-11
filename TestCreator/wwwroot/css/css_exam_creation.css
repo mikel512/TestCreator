@@ -1,0 +1,243 @@
+
+
+#h_title_exam_creation {
+    margin: auto;
+    text-align: center;
+    font-size: 3em;
+    color: white;
+    font-family: open-sans, sans-serif;    font-weight: bold;
+}
+
+#h_exam_name {
+    margin: auto;
+    text-align: center;
+    margin-bottom: 1em;
+}
+
+#div_title_blocked {
+    width: 70%;
+    height: 100%;
+    border-radius: 1em;
+    text-align: center;
+    padding: 1em;
+    margin: auto;
+    background: #343a40;
+}
+
+#div_exam_header {
+    width: 90%;
+    margin: auto;
+    text-align: center;
+    background-color: white;
+    border: 2px solid white;
+    border-radius: 0.5em;
+    padding: 1em;
+}
+
+#div_bar_tools {
+    width: 60%;
+    margin: auto;
+    text-align: center;
+    background-color: white;
+    border-radius: 0.5em;
+}
+
+.button_toolbar {
+    margin: auto;
+    border: none;
+    background-color: transparent;
+}
+
+.button_toolbar:hover {
+    margin: auto;
+    border: none;
+    background-color: transparent;
+
+    border-radius: 0.1em;
+    box-shadow: 0 0 0.25em 0 black;
+
+}
+
+#hr_toolbar {
+	width: 75%;
+}
+
+#div_container_body {
+    width: 90%;
+    height: 100%;
+    border-radius: 1em;
+    text-align: center;
+    padding: 1em;
+    margin: auto;
+    background: #959a9cbd;
+}
+
+#input_question_name, #select_question_type, #input_new_exam_name {
+    padding: 0.5em;
+    border-radius: 0.25em;
+}
+
+#div_list_exams {
+    display: inline-block;
+    float: left;
+    width: 20%;
+    height: 90%;
+    padding: 0.5em;
+    text-align: center;
+    border-radius: 0.5em;
+    margin: auto;
+    margin-top: 0.5em;
+    background-color: #99BBFF60;
+}
+
+#div_list_question {
+    display: inline-block;
+    width: 20%;
+    float: right;
+    padding: 0.5em;
+    text-align: center;
+    border-radius: 0.5em;
+    margin: auto;
+    margin-top: 0.5em;
+    background-color: #99BBFF60;
+}
+
+.p_notes {
+    font-family: open-sans, sans-serif;
+    font-weight: bold;
+}
+
+.button_exam_list, .button_question_list {
+	width: 95%;
+	padding: 0.25em;
+	border-radius: 3px;
+}
+.button_exam_list_selected, .button_question_list_selected {
+	width: 95%;
+	padding: 0.25em;
+	border-radius: 3px;
+	background-color: darkgrey;
+}
+
+
+#div_question_create {
+	border-radius: 0.5em;
+	display: inline-block;
+	width: 60%;
+	height: 100%;
+	padding: 1em;
+	margin: 0px;
+	margin-top: 0.5em;
+}
+
+#h_create_title {
+    text-align: center;
+    font-family: open-sans, sans-serif;
+    font-weight: bold;
+    font-size: 2em;
+}
+
+.question_text, .answer_text {
+	width: 90%;
+	height: 5em;
+	padding: 0.5em;
+	border-radius: 0.25em;
+}
+
+#button_add_question, #submit_new_exam {
+    width: 25%;
+    padding: 0.5em;
+    border: none;
+    border-radius:0.5em;
+    box-sizing: border-box;
+    text-decoration:none;
+    font-family:open-sans,sans-serif;
+    font-weight:300;
+    font-size:1.5em;
+    font-style: normal;
+    color:#FFFFFF;
+    background-color:#6349ca;
+    text-align:center;
+    cursor: pointer;
+    -webkit-transition-duration: 0.25s; 
+}
+#button_add_question:hover, #submit_new_exam:hover {
+	box-shadow: 0 5px 5px 0 rgba(0,0,0,0.24),0 5px 5px 0 rgba(0,0,0,0.19);
+}
+
+.div_edit_question {
+	display: block;
+}
+.div_off_question {
+	display: none;
+}
+
+
+#h_exam_title, #h_list_question, #h_new_question {
+    font-family: open-sans, sans-serif;
+    font-weight: bold;
+}
+
+.div_new_exam_on {
+	display: block;
+	border-radius: 0.5em;
+	padding: 1em;
+	width: 30%;
+	background-color: red;
+	position: fixed;
+	z-index: 100;
+	top: 15%;
+	left: 35%;
+	box-shadow: 0 0 10px 0 black;
+	background-color: #99BBFF;
+}
+.div_new_exam_off {
+	display: none;
+}
+
+#submit_new_exam {
+	width: 50%;
+}
+
+.button_nav {
+	color: grey;
+	font-family: ubuntu, sans-serif;
+	font-weight: bold;
+	background-color: transparent;
+	border: none;
+}
+.button_nav:hover {
+	color: white;
+}
+
+#h_new_exam {
+    font-family: ubuntu, sans-serif;
+    font-weight: bold;
+	font-size: 3em;
+}
+
+
+#button_cancel_exam {
+    width: 25%;
+    padding: 0.25em;
+    border-radius:0.5em;
+	border: none;
+    box-sizing: border-box;
+    text-decoration:none;
+    font-family:open-sans,sans-serif;
+    font-weight:300;
+    font-size: 1em;
+    font-style: normal;
+    color: white;
+    background-color: red;
+    text-align:center;
+    cursor: pointer;
+    -webkit-transition-duration: 0.25s; 
+}
+#button_cancel_exam:hover {
+	box-shadow: 0 2px 2px 0 rgba(0,0,0,0.24),0 2px 2px 0 rgba(0,0,0,0.19);
+}
+
+.question_text {
+	border-radius: 3px;
+}
