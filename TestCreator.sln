@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestCreator", "TestCreator\
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "TestCreatorDatabase", "TestCreatorDatabase\TestCreatorDatabase.sqlproj", "{0CD66DDD-65CF-4AD0-968E-70126E3AC904}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataLibrary", "DataAccess\DataLibrary.csproj", "{186EE0DE-3160-4681-8CAD-F634444834DB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,6 +25,10 @@ Global
 		{0CD66DDD-65CF-4AD0-968E-70126E3AC904}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0CD66DDD-65CF-4AD0-968E-70126E3AC904}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0CD66DDD-65CF-4AD0-968E-70126E3AC904}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{186EE0DE-3160-4681-8CAD-F634444834DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{186EE0DE-3160-4681-8CAD-F634444834DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{186EE0DE-3160-4681-8CAD-F634444834DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{186EE0DE-3160-4681-8CAD-F634444834DB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
