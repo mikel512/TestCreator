@@ -1,6 +1,6 @@
 using System;
 
-namespace TestCreator.Models
+namespace TestCreatorX.Models
 {
     public class ErrorViewModel
     {

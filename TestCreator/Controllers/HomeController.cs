@@ -4,32 +4,27 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using TestCreator.Models;
+using Microsoft.Extensions.Logging;
+using TestCreatorX.Models;
 
-namespace TestCreator.Controllers
+namespace TestCreatorX.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult ExamCreation()
+        private readonly ILogger<HomeController> _logger;
+
+        public HomeController(ILogger<HomeController> logger)
         {
-            return View();
+            _logger = logger;
         }
+
         public IActionResult Index()
         {
             return View();
         }
-
-        public IActionResult About()
+        
+        public IActionResult ExamCreation()
         {
-            ViewData["Message"] = "Your application description page.";
-
-            return View();
-        }
-
-        public IActionResult Contact()
-        {
-            ViewData["Message"] = "Your contact page.";
-
             return View();
         }
 

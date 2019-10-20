@@ -61,15 +61,15 @@ create table [dbo].[answer]
 	CONSTRAINT fk_question FOREIGN KEY(questionID)
 	REFERENCES [dbo].[question](questionID)
 )
-create table [dbo].[student_answer]
+create table [dbo].[test_score_answer]
 (
-	[studentID]		INT NOT NULL,
+	[scoreID]		INT NOT NULL,
 	[answerID]		INT NOT NULL,
 
-	CONSTRAINT pk_student_answer PRIMARY KEY(studentID, answerID),
-	CONSTRAINT fk_student_sAnswer FOREIGN KEY(studentID)
-		REFERENCES [dbo].[student](studentID),
-	CONSTRAINT fk_answer_sAnswer FOREIGN KEY(answerID)
+	CONSTRAINT pk_score_answer PRIMARY KEY(scoreID, answerID),
+	CONSTRAINT fk_score FOREIGN KEY(scoreID)
+		REFERENCES [dbo].[test_score](scoreID),
+	CONSTRAINT fk_score_answer FOREIGN KEY(answerID)
 		REFERENCES [dbo].[answer](answerID)
 )
 
@@ -86,4 +86,3 @@ create table [dbo].[test_score]
 	CONSTRAINT fk_test_tScore FOREIGN KEY(testID)
 	REFERENCES [dbo].[test](testID)
 )
-
