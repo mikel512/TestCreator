@@ -25,7 +25,7 @@ namespace TestCreatorX.Controllers
         
         public IActionResult ExamCreation()
         {
-            return View(student);
+            return View();
         }
 
         public IActionResult Privacy()
