@@ -319,55 +319,19 @@ namespace DataLibrary.DataAccess
             }
         }
         
-
-
-
-
         // =============== //
         // === QUERIES === //
         // =============== //
-        public List<Student> GetStudents()
+        public List<Test> GetInstructorExams(int intructorID)
         {
-            List<Student> students = new List<Student>();
+            List<Test> tests = new List<Test>();
 
             string connectionString = GetConnectionString();
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
 
-                SqlCommand command = new SqlCommand("Get_Student_List", connection);
-                command.CommandType = System.Data.CommandType.StoredProcedure;
-
-                SqlDataReader reader = command.ExecuteReader();
-                if (reader.HasRows)
-                {
-                    while(reader.Read())
-                    {
-                        Student s = new Student();
-
-                        s.studentID = (int)reader[0];
-                        s.lName = reader[1].ToString();
-                        s.fName = reader[2].ToString();
-                        s.scores = null;
-                        s.classes = null;
-
-                        students.Add(s);
-                    }
-                }
-            }
-
-            return students;
-        }
-        public List<Student> GetInstructorClasses(int intructorID)
-        {
-            List<Student> classes = new List<Student>();
-            /*
-            string connectionString = GetConnectionString();
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                connection.Open();
-
-                SqlCommand command = new SqlCommand("Get_Class_List", connection);
+                SqlCommand command = new SqlCommand("Get_Instructor_Test_List", connection);
                 command.CommandType = System.Data.CommandType.StoredProcedure;
 
                 SqlDataReader reader = command.ExecuteReader();
@@ -375,24 +339,81 @@ namespace DataLibrary.DataAccess
                 {
                     while (reader.Read())
                     {
-                        Student s = new Student();
+                        Test t = new Test();
 
-                        s.studentID = (int)reader[0];
-                        s.lName = reader[1].ToString();
-                        s.fName = reader[2].ToString();
-                        s.scores = null;
-                        s.classes = null;
+                        t.testID = (int)reader[0];
+                        t.classID = (int)reader[1];
+                        t.testTitle = reader[2].ToString();
+                        t.questions = GetTestQuestionList(t.testID);
 
-                        students.Add(s);
+                        tests.Add(t);
                     }
                 }
             }
-            */
-            return classes;
+
+            return tests;
         }
+        public List<Question> GetTestQuestionList(int testID)
+        {
+            List<Question> questions = new List<Question>();
 
+            string connectionString = GetConnectionString();
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
 
+                SqlCommand command = new SqlCommand("Get_Test_Question_List", connection);
+                command.CommandType = System.Data.CommandType.StoredProcedure;
 
+                SqlDataReader reader = command.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        Question q = new Question();
+
+                        q.questionID = (int)reader[0];
+                        q.questionContent = reader[1].ToString();
+                        q.isLongAnswer = (bool)reader[2];
+                        q.answers = GetQuestionAnswersList(q.questionID);
+
+                        questions.Add(q);
+                    }
+                }
+            }
+
+            return questions;
+        }
+        public List<Answer> GetQuestionAnswersList(int questionID)
+        {
+            List<Answer> answers = new List<Answer>();
+
+            string connectionString = GetConnectionString();
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                SqlCommand command = new SqlCommand("Get_Question_Answer_List", connection);
+                command.CommandType = System.Data.CommandType.StoredProcedure;
+
+                SqlDataReader reader = command.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        Answer a = new Answer();
+
+                        a.answerID = (int)reader[0];
+                        a.isLongAnswer = (bool)reader[1];
+                        a.answerContent = reader[2].ToString();
+
+                        answers.Add(a);
+                    }
+                }
+            }
+
+            return answers;
+        }
 
     }
 }

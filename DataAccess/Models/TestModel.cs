@@ -20,6 +20,7 @@ namespace DataLibrary.Models
     public class Test
     {
         public int testID { get; set; }
+        public int classID { get; set; }
         public string testTitle { get; set; }
         public List<Question> questions { get; set; }
     }
