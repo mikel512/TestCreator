@@ -7,6 +7,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using TestCreatorX.Models;
 
+using DataLibrary.DataAccess;
+using DataLibrary.Models;
+
+
+
+
 namespace TestCreatorX.Controllers
 {
     public class HomeController : Controller
@@ -20,12 +26,15 @@ namespace TestCreatorX.Controllers
 
         public IActionResult Index()
         {
+            SqlDataAccess data = new SqlDataAccess();
+            
+
             return View();
         }
         
         public IActionResult ExamCreation()
         {
-            return View(student);
+            return View();
         }
 
         public IActionResult Privacy()
