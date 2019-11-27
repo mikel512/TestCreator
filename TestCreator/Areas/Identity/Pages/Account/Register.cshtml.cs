@@ -20,14 +20,14 @@ namespace TestCreator.Areas.Identity.Pages.Account
     [AllowAnonymous]
     public class RegisterModel : PageModel
     {
-        private readonly SignInManager<TestCreatorUser> _signInManager;
-        private readonly UserManager<TestCreatorUser> _userManager;
+        private readonly SignInManager<TestUser> _signInManager;
+        private readonly UserManager<TestUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
 
         public RegisterModel(
-            UserManager<TestCreatorUser> userManager,
-            SignInManager<TestCreatorUser> signInManager,
+            UserManager<TestUser> userManager,
+            SignInManager<TestUser> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender)
         {
@@ -85,7 +85,7 @@ namespace TestCreator.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new TestCreatorUser { 
+                var user = new TestUser {
                     Name = Input.Name,
                     DOB = Input.DOB,
                     UserName = Input.Email, 
