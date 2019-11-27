@@ -7,16 +7,18 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
+using TestCreator.Areas.Identity.Data;
+
 namespace TestCreator.Areas.Identity.Pages.Account.Manage
 {
     public partial class IndexModel : PageModel
     {
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly UserManager<TestCreatorUser> _userManager;
+        private readonly SignInManager<TestCreatorUser> _signInManager;
 
         public IndexModel(
-            UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager)
+            UserManager<TestCreatorUser> userManager,
+            SignInManager<TestCreatorUser> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -32,20 +34,38 @@ namespace TestCreator.Areas.Identity.Pages.Account.Manage
 
         public class InputModel
         {
+            [Required]
+            [DataType(DataType.Text)]
+            [Display(Name = "Full Name")]
+            public string Name { get; set; }
+
+            [Required]
+            [DataType(DataType.Date)]
+            [Display(Name = "Birth Date")]
+            public DateTime DOB { get; set; }
+
+            [Required]
+            [EmailAddress]
+            public string Email { get; set; }
+
             [Phone]
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
         }
 
-        private async Task LoadAsync(IdentityUser user)
+        private async Task LoadAsync(TestCreatorUser user)
         {
             var userName = await _userManager.GetUserNameAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
+            var email = await _userManager.GetEmailAsync(user);
 
             Username = userName;
 
             Input = new InputModel
             {
+                Name = user.Name,
+                DOB = user.DOB,
+                Email = email,
                 PhoneNumber = phoneNumber
             };
         }
@@ -76,6 +96,17 @@ namespace TestCreator.Areas.Identity.Pages.Account.Manage
                 return Page();
             }
 
+            var email = await _userManager.GetEmailAsync(user);
+            if (Input.Email != email)
+            {
+                var setEmailResult = await _userManager.SetEmailAsync(user, Input.Email);
+                if (!setEmailResult.Succeeded)
+                {
+                    var userId = await _userManager.GetUserIdAsync(user);
+                    throw new InvalidOperationException($"Unexpected error occurred setting email for user with ID '{userId}'.");
+                }
+            }
+
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
             if (Input.PhoneNumber != phoneNumber)
             {
@@ -86,6 +117,18 @@ namespace TestCreator.Areas.Identity.Pages.Account.Manage
                     throw new InvalidOperationException($"Unexpected error occurred setting phone number for user with ID '{userId}'.");
                 }
             }
+
+            if (Input.Name != user.Name)
+            {
+                user.Name = Input.Name;
+            }
+
+            if (Input.DOB != user.DOB)
+            {
+                user.DOB = Input.DOB;
+            }
+
+            await _userManager.UpdateAsync(user);
 
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your profile has been updated";

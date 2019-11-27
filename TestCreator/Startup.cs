@@ -8,12 +8,14 @@ using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
-using TestCreatorX.Data;
+using TestCreator.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
 
-namespace TestCreatorX
+namespace TestCreator
 {
     public class Startup
     {
@@ -31,9 +33,28 @@ namespace TestCreatorX
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
-            services.AddControllersWithViews();
             services.AddRazorPages();
+            services.AddControllers(config =>
+            {
+                // using Microsoft.AspNetCore.Mvc.Authorization;
+                // using Microsoft.AspNetCore.Authorization;
+                var policy = new AuthorizationPolicyBuilder()
+                                 .RequireAuthenticatedUser()
+                                 .Build();
+                config.Filters.Add(new AuthorizeFilter(policy));
+            });
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("RequireAdmin",
+                    policy => policy.RequireRole("Administrator"));
+                options.AddPolicy("RequireInstructor",
+                    policy => policy.RequireRole("Instructor"));
+                options.AddPolicy("RequireStudent",
+                    policy => policy.RequireRole("Student"));
+
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -65,6 +86,8 @@ namespace TestCreatorX
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
+
         }
+
     }
 }

@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace TestCreatorX.Data.Migrations
+namespace TestCreator.Data.Migrations
 {
     public partial class CreateIdentitySchema : Migration
     {
