@@ -14,6 +14,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using TestCreator.Models;
+using TestCreator.Areas.Identity.Data;
+using TestCreator.Data;
 
 namespace TestCreator
 {
@@ -32,7 +34,7 @@ namespace TestCreator
             services.AddDbContext<TestCreatorContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddDefaultIdentity<TestUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<TestCreatorContext>();
             services.AddRazorPages();
@@ -45,20 +47,10 @@ namespace TestCreator
                                  .Build();
                 config.Filters.Add(new AuthorizeFilter(policy));
             });
-            services.AddAuthorization(options =>
-            {
-                options.AddPolicy("RequireAdmin",
-                    policy => policy.RequireRole("Administrator"));
-                options.AddPolicy("RequireInstructor",
-                    policy => policy.RequireRole("Instructor"));
-                options.AddPolicy("RequireStudent",
-                    policy => policy.RequireRole("Student"));
-
-            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, UserManager<TestUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             if (env.IsDevelopment())
             {
@@ -78,6 +70,7 @@ namespace TestCreator
 
             app.UseAuthentication();
             app.UseAuthorization();
+            IdentityDataInit.SeedData(userManager, roleManager);
 
             app.UseEndpoints(endpoints =>
             {
