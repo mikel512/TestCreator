@@ -13,20 +13,21 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using TestCreator.Areas.Identity.Data;
 
 namespace TestCreator.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
     public class RegisterModel : PageModel
     {
-        private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly SignInManager<TestUser> _signInManager;
+        private readonly UserManager<TestUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
 
         public RegisterModel(
-            UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager,
+            UserManager<TestUser> userManager,
+            SignInManager<TestUser> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender)
         {
@@ -46,6 +47,16 @@ namespace TestCreator.Areas.Identity.Pages.Account
         public class InputModel
         {
             [Required]
+            [DataType(DataType.Text)]
+            [Display(Name = "Full name")]
+            public string Name { get; set; }
+
+            [Required]
+            [Display(Name = "Birth Date")]
+            [DataType(DataType.Date)]
+            public DateTime DOB { get; set; }
+
+            [Required]
             [EmailAddress]
             [Display(Name = "Email")]
             public string Email { get; set; }
@@ -60,10 +71,27 @@ namespace TestCreator.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+
+            [Display(Name = "I am a:")]
+            public IEnumerable<Role> AvailableRoles { get; set; }
+
+            public int SelectedRole { get; set; }
+
+        }
+        public class Role
+        {
+            public int Id { get; set; }
+            public string RoleName { get; set; }
         }
 
         public async Task OnGetAsync(string returnUrl = null)
         {
+            Input = new InputModel();
+            Input.AvailableRoles = new List<Role>
+            {
+                new Role {Id = 1, RoleName="Instructor"},
+                new Role {Id = 2, RoleName= "Student"}
+            };
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
@@ -74,10 +102,17 @@ namespace TestCreator.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new IdentityUser { UserName = Input.Email, Email = Input.Email };
+                var user = new TestUser {
+                    Name = Input.Name,
+                    DOB = Input.DOB,
+                    UserName = Input.Email, 
+                    Email = Input.Email 
+                };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
+                    // add user to Role if succeeded
+                    _userManager.AddToRoleAsync(user, (Input.SelectedRole == 1) ? "Instructor" : "Student").Wait();
                     _logger.LogInformation("User created a new account with password.");
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);

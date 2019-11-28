@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using TestCreatorX.Data;
+using TestCreator.Areas.Identity.Data;
 
 [assembly: HostingStartup(typeof(TestCreator.Areas.Identity.IdentityHostingStartup))]
 namespace TestCreator.Areas.Identity
