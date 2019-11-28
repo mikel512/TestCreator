@@ -71,10 +71,27 @@ namespace TestCreator.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+
+            [Display(Name = "I am a:")]
+            public IEnumerable<Role> AvailableRoles { get; set; }
+
+            public int SelectedRole { get; set; }
+
+        }
+        public class Role
+        {
+            public int Id { get; set; }
+            public string RoleName { get; set; }
         }
 
         public async Task OnGetAsync(string returnUrl = null)
         {
+            Input = new InputModel();
+            Input.AvailableRoles = new List<Role>
+            {
+                new Role {Id = 1, RoleName="Instructor"},
+                new Role {Id = 2, RoleName= "Student"}
+            };
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
@@ -94,6 +111,8 @@ namespace TestCreator.Areas.Identity.Pages.Account
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
+                    // add user to Role if succeeded
+                    _userManager.AddToRoleAsync(user, (Input.SelectedRole == 1) ? "Instructor" : "Student").Wait();
                     _logger.LogInformation("User created a new account with password.");
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
