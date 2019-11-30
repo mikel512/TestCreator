@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using TestCreator.Models;
 using DataLibrary.DataAccess;
 using DataLibrary.Models;
+using System.Security.Claims;
 
 namespace TestCreator.Controllers
 {
@@ -27,22 +28,19 @@ namespace TestCreator.Controllers
             return View();
         }
         
-        [Authorize(Roles = "Instructor")]
-        public IActionResult ExamCreation()
-        {
-            return View();
-        }
-
         [AllowAnonymous]
         public IActionResult Privacy()
         {
             return View();
         }
 
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+
     }
 }

@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -17,17 +19,14 @@
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Test Creator</a>
 
                 <button class="navbar-toggler" data-toggle="collapse" data-target="#collapse_target">
-			               <span class="navbar-toggler-icon"></span>
-		            </button>
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
-                 <div class="collapse navbar-collapse" id="collapse_target">
+                <div class="collapse navbar-collapse" id="collapse_target">
                     <partial name="_LoginNavPartial" />
                     <ul class="navbar-nav">
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Home" asp-action="ExamCreation">Create Exam</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link">Members</a>
@@ -41,6 +40,10 @@
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
+                        @if (this.User.IsInRole("Instructor"))
+                        {
+                            <partial name="_InstructorNavPartial" />
+                        }
 
                     </ul>
 
@@ -57,30 +60,30 @@
 
     @*This is the modal menu which contains the login form*@
     @*<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
 
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalLabel">Log In</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalLabel">Log In</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+                        <partial name="_LoginModalPartial" />
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" id="login">Log in</button>
+                        <button type="button" class="btn btn-primary" id="btnUpdate" onclick="Update();">Update</button>
+                            <button type="button" class="btn btn-primary" id="btnAdd" onclick="AddDate();" style="display:none">Add</button>
+                            <button type="button" class="btn btn-dark" data-dismiss="modal" onclick="modalClose();">Close</button>
+                    </div>
+
                 </div>
-
-                <div class="modal-body">
-                    <partial name="_LoginModalPartial" />
-                </div>
-
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" id="login">Log in</button>
-                    <button type="button" class="btn btn-primary" id="btnUpdate" onclick="Update();">Update</button>
-                        <button type="button" class="btn btn-primary" id="btnAdd" onclick="AddDate();" style="display:none">Add</button>
-                        <button type="button" class="btn btn-dark" data-dismiss="modal" onclick="modalClose();">Close</button>
-                </div>
-
             </div>
-        </div>
-    </div>*@
+        </div>*@
 
     <footer class="border-top footer text-muted">
         <div class="container">

@@ -1,13 +1,17 @@
-﻿
+﻿@using DataLibrary.Models
 @{
     ViewData["Title"] = "Exam Creation";
+    ClassModel c = (ClassModel)ViewData["ClassData"];
+    QuestionModel q = (QuestionModel)ViewData["QuestionData"];
+
 }
 
+<h2>Creating exam for @c.className </h2>
 <!-- Body Container -->
 <div id="div_container_body">
 
     <!-- List of Exams -->
-    <div id="div_list_exams">
+    @*<div id="div_list_exams">
         <h3 id="h_exam_title"> Exams </h3>
         <hr id="hr_toolbar" />
         <button class="button_exam_list"> Exam CS_458 </button>
@@ -28,7 +32,7 @@
         <br />
         <button class="button_exam_list"> Exam CS_111 </button>
         <br />
-    </div>
+    </div>*@
 
     <!-- Create a Question -->
     <div id="div_question_create">

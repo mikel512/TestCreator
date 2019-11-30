@@ -1,0 +1,44 @@
+﻿@using DataLibrary.Models
+
+@{
+    ViewData["Title"] = "My Classrooms";
+}
+
+<h1>My Classrooms</h1>
+
+<div class="">
+    <a class="page-link" asp-controller="Instructor" asp-action="CreateClass">Create a new classroom</a>
+    @*<a class="nav-link" asp-controller="Instructor" asp-action="ExamCreation">Create Exam</a>*@
+</div>
+
+<table class="table table-responsive">
+    <thead>
+        <tr>
+            <th scope="col">
+                @Html.DisplayName("Class Subject")
+            </th>
+            <th scope="col">
+                @Html.DisplayName("Class Name")    
+            </th>
+            <th>
+
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in (IEnumerable<ClassModel>)ViewData["ClassList"])
+        {
+            <tr>
+                <th scope="row" class="" width="200">
+                    @Html.DisplayName(item.classSubject)
+                </th>
+                <td width="700">
+                    @Html.DisplayName(item.className)
+                </td>
+                <td>
+                    <a asp-controller="Instructor" asp-action="ExamCreation" asp-route-classId="@item.classID">Create Exam</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
