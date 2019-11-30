@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using TestCreator.Models;
+using DataLibrary.DataAccess;
+using DataLibrary.Models;
 
 namespace TestCreator.Controllers
 {
@@ -25,6 +27,7 @@ namespace TestCreator.Controllers
             return View();
         }
         
+        [Authorize(Roles = "Instructor")]
         public IActionResult ExamCreation()
         {
             return View();

@@ -37,4 +37,9 @@
     <Folder Include="Authorization\" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <ProjectReference Include="..\DataAccess\DataLibrary.csproj" />
+  </ItemGroup>
+
 </Project>
