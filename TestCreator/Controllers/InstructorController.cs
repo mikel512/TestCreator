@@ -32,18 +32,18 @@ namespace TestCreator.Controllers
         }
 
         [HttpGet]
-        public IActionResult ExamCreation(int classId)
+        public IActionResult ExamCreation()
         {
             var access = new SqlDataAccess();
-            var classroom = access.GetClassroomById(classId);
-            ViewData["ClassData"] = classroom;
+            //var classroom = access.GetClassroomById(classId);
+            //ViewData["ClassData"] = classroom;
             ViewData["TestData"] = new ExamModel();
-            return View(classroom);
+            return View();
         }
 
         #region Post Actions
         [HttpPost]
-        public IActionResult CreateClass(ClassModel classModel)
+        public IActionResult CreateClassAJAX(ClassModel classModel)
         {
             var access = new SqlDataAccess();
             ClaimsPrincipal currentUser = this.User;
@@ -53,7 +53,29 @@ namespace TestCreator.Controllers
                 access.CreateClass(classModel.className, classModel.classSubject, currentUserId);
                 return RedirectToAction("Index");
             }
+            return View("Index");
+        }
+        [HttpPost]
+        public IActionResult CreateExamAJAX(ExamModel examModel)
+        {
+            var access = new SqlDataAccess();
+            ClaimsPrincipal currentUser = this.User;
+            string currentUserId = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
+            if (ModelState.IsValid)
+            {
+                access.CreateTest(examModel.testTitle, examModel.classID);
+                return RedirectToAction("ExamCreation");
+            }
             return View();
+        }
+        [HttpPost]
+        public IActionResult CreateNewExam(string examName, int classId)
+        {
+            var access = new SqlDataAccess();
+            access.CreateTest(examName, classId);
+            var classroom = access.GetClassroomById(classId);
+            
+            return Json(classroom);
         }
 
         #endregion

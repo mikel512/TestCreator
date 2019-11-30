@@ -1,13 +1,20 @@
 ﻿@using DataLibrary.Models
+@model DataLibrary.Models.ExamModel
 
 @{
     ViewData["Title"] = "My Classrooms";
+    var classes = (IEnumerable<ClassModel>)ViewData["ClassList"];
 }
 
 <h1>My Classrooms</h1>
 
 <div class="">
-    <a class="page-link" asp-controller="Instructor" asp-action="CreateClass">Create a new classroom</a>
+    @*<a class="page-link" asp-controller="Instructor" asp-action="CreateClass">Create a new classroom</a>*@
+    <button class="btn btn-dark" data-toggle="modal" data-target="#addClassModal">Create a new classroom</button>
+    <a data-target="#testNameModal" href="#" data-toggle="modal" 
+       class="open-AddTestDialog">
+        Create Exam
+    </a>
     @*<a class="nav-link" asp-controller="Instructor" asp-action="ExamCreation">Create Exam</a>*@
 </div>
 
@@ -26,7 +33,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in (IEnumerable<ClassModel>)ViewData["ClassList"])
+        @foreach (var item in classes)
         {
             <tr>
                 <th scope="row" class="" width="200">
@@ -36,9 +43,79 @@
                     @Html.DisplayName(item.className)
                 </td>
                 <td>
-                    <a asp-controller="Instructor" asp-action="ExamCreation" asp-route-classId="@item.classID">Create Exam</a>
+                    @*<a asp-controller="Instructor" asp-action="ExamCreation" asp-route-classId="@item.classID">Create Exam</a>*@
                 </td>
             </tr>
         }
     </tbody>
 </table>
+
+<!--
+        This is the modal menu which holds a form to 
+        either ADD a test to db. Will redirect to ExamCreation
+        page.
+    -->
+    <div class="modal fade" id="testNameModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title col-4" id="modalLabel">Type in a name for a new exam</h4>
+                    <button type="button" class="close" data-dismiss="modal">x</button>
+                </div>
+                <div class="modal-body">
+                    <form asp-action="CreateExamAJAX" asp-controller="Instructor"
+                          data-ajax="true"
+                          data-ajax-method="POST"
+                          data-ajax-mode="replace"
+                          data-ajax-update="#ajaxresult">
+
+                        <div id="ajaxresult">
+                            <div asp-validation-summary="All" class="text-danger"></div>
+
+                            <div class="form-group">
+                                <label for="name">Class Name</label>
+                                <input type="text" class="form-control" asp-for="testTitle"
+                                       id="testTileId" aria-describedby="nameHelp"
+                                       placeholder="Enter class name">
+                                <span asp-validation-for="testTitle" class="text-danger"></span>
+                            </div>
+
+                            <select asp-for="classID">
+                                @foreach(var item in classes)
+                                {
+                                    <option value="@item.classID">@item.className</option>
+                                }
+
+                            </select>
+
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </form>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="btnAdd" onclick="AddTestToDb();" >Create</button>
+                    <button type="button" class="btn btn-dark" data-dismiss="modal" onclick="modalClose();">Close</button>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+<!--
+        This is the modal menu which holds a form to 
+        either ADD a classroom
+    -->
+    <div class="modal fade" id="addClassModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title col-4" id="modalLabel">Type in a name for a new classroom</h4>
+                    <button type="button" class="close" data-dismiss="modal">x</button>
+                </div>
+                <div class="modal-body">
+                    <partial name="_CreateClassPartial"/>
+                </div>
+            </div>
+            
+        </div>
+    </div>
