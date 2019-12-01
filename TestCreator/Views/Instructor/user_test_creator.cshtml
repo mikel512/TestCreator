@@ -1,7 +1,6 @@
-<!doctype html>
-<html>
-
-<head>
+﻿@using DataLibrary.Models
+@model DataLibrary.Models.ExamModel
+<!-- <head>
 	<meta charset="utf-8">
   	<meta name="viewport" content="width=device-width, initial-scale=1">
   	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">	
@@ -9,15 +8,15 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 
-</head>
+</head> -->
 <style>
 
 .sidenav {
-  height: 100%;
+  height: 50%;
   width: 300px;
   position: fixed;
-  z-index: 1;
-  top: 0;
+  z-index: 0;
+  top: 6.5em;
   left: 0;
   background-color: #696969;
   overflow-x: hidden;
@@ -64,10 +63,6 @@ hr
   padding: 0px 10px;
 }
 
-@media screen and (max-height: 450px) {
-  .sidenav {padding-top: 15px;}
-  .sidenav a {font-size: 18px;}
-}
 </style>
 <script>
 	function createDocument()
@@ -75,11 +70,9 @@ hr
 
 	}
 </script>
-<body>
-
 <div class="sidenav">
 
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-file-text-o" aria-hidden="true"></i>
+<button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-file-text-o" aria-hidden="true"></i>
   Create New Document
 </button>
 
@@ -94,6 +87,9 @@ hr
 
 	<button type="button" class="btn btn-primary">
 	<i class="fa fa-download" aria-hidden="true"></i>Import File</button>
+
+  <button type="button" class="btn btn-primary">
+  <i class="fa fa-download" aria-hidden="true"></i>Create New Class</button>
 
 </div>
 
@@ -113,9 +109,6 @@ hr
         <label for="exampleInputEmail1">Document Name:</label>
     	<input type="email" class="form-control" name="documentName" id="documentName" aria-describedby="emailHelp" placeholder="Document Name">
       </div>
-      <div class="modal-body">
-        
-      </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         <button type="button" class="btn btn-primary">Create Document</button>
@@ -123,5 +116,3 @@ hr
     </div>
   </div>
 </div>
-</body>
-</html>

@@ -26,6 +26,11 @@ namespace TestCreator.Controllers
             return View();
         }
 
+        public IActionResult user_test_creator()
+        {
+            return View();
+        }
+
         public IActionResult CreateClass()
         {
             return View();
