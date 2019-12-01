@@ -41,6 +41,17 @@ namespace TestCreator.Controllers
             return View();
         }
 
+        public IActionResult ClassTests(int classId, string className)
+        {
+            var access = new SqlDataAccess();
+            var exams = access.GetTestByClassId(classId);
+
+            ViewData["ExamList"] = exams;
+            ViewData["Title"] = "Tests for" + className;
+            return View();
+        }
+
+
         #region Post Actions
         [HttpPost]
         public IActionResult CreateClassAJAX(ClassModel classModel)

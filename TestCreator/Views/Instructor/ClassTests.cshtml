@@ -1,0 +1,26 @@
+﻿@using DataLibrary.Models
+@{
+}
+
+<h1>ClassTests</h1>
+
+<table class="table table-responsive">
+    <thead>
+        <tr>
+            <th scope="col">
+                @Html.DisplayName("Test Name")
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in (IEnumerable<ExamModel>)ViewData["ExamList"])
+        {
+            <tr>
+                <th scope="row" class="" width="800">
+                    @Html.DisplayName(item.testTitle)
+                </th>
+            </tr>
+        }
+    </tbody>
+</table>
+

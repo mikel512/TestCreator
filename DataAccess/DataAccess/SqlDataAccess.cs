@@ -22,45 +22,6 @@ namespace DataLibrary.DataAccess
         // === INSERTS === //
         // =============== //
 
-        // CreateStudent & CreateInstructor depecrecated, handled by .NET Core Identity user registration and roles
-        //public void CreateStudent(string first, string last)
-        //{
-        //    string connectionString = GetConnectionString();
-        //    using (SqlConnection connection = new SqlConnection(connectionString))
-        //    {
-        //        connection.Open();
-
-        //        SqlCommand command = new SqlCommand("create_student", connection);
-        //        command.CommandType = System.Data.CommandType.StoredProcedure;
-
-        //        SqlParameter fName = new SqlParameter("@first", first);
-        //        SqlParameter lName = new SqlParameter("@last", last);
-
-        //        command.Parameters.Add(fName);
-        //        command.Parameters.Add(lName);
-
-        //        command.ExecuteNonQuery();
-        //    }
-        //}
-        //public void CreateInstructor(string first, string last)
-        //{
-        //    string connectionString = GetConnectionString();
-        //    using (SqlConnection connection = new SqlConnection(connectionString))
-        //    {
-        //        connection.Open();
-
-        //        SqlCommand command = new SqlCommand("create_instructor", connection);
-        //        command.CommandType = System.Data.CommandType.StoredProcedure;
-
-        //        SqlParameter fName = new SqlParameter("@first", first);
-        //        SqlParameter lName = new SqlParameter("@last", last);
-
-        //        command.Parameters.Add(fName);
-        //        command.Parameters.Add(lName);
-
-        //        command.ExecuteNonQuery();
-        //    }
-        //}
         public void CreateClass(string nClassName, string nClassSubject, string nInstructorID)
         {
             string connectionString = GetConnectionString();

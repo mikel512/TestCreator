@@ -11,10 +11,10 @@
 <div class="">
     @*<a class="page-link" asp-controller="Instructor" asp-action="CreateClass">Create a new classroom</a>*@
     <button class="btn btn-dark" data-toggle="modal" data-target="#addClassModal">Create a new classroom</button>
-    <a data-target="#testNameModal" href="#" data-toggle="modal" 
-       class="open-AddTestDialog">
+    <button data-target="#testNameModal" href="#" data-toggle="modal" 
+       class="btn btn-secondary">
         Create Exam
-    </a>
+    </button>
     @*<a class="nav-link" asp-controller="Instructor" asp-action="ExamCreation">Create Exam</a>*@
 </div>
 
@@ -40,10 +40,10 @@
                     @Html.DisplayName(item.classSubject)
                 </th>
                 <td width="700">
-                    @Html.DisplayName(item.className)
-                </td>
-                <td>
-                    @*<a asp-controller="Instructor" asp-action="ExamCreation" asp-route-classId="@item.classID">Create Exam</a>*@
+                    <a asp-action="ClassTests" asp-controller="Instructor" 
+                       asp-route-classId="@item.classID" asp-route-className="@item.className">
+                        @item.className
+                    </a>
                 </td>
             </tr>
         }
@@ -109,7 +109,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title col-4" id="modalLabel">Type in a name for a new classroom</h4>
+                    <h5 class="modal-title col-4" id="modalLabel">Type in a name for a new classroom</h5>
                     <button type="button" class="close" data-dismiss="modal">x</button>
                 </div>
                 <div class="modal-body">
