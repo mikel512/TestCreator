@@ -26,7 +26,10 @@ namespace DataLibrary.Models
         [Display(Name ="Is long answer?")]
         public bool isLongAnswer { get; set; }
 
-        public IEnumerable<AnswerModel> answers { get; set; }
+        [Display(Name = "Question type")]
+        public string QuestionType { get; set; }
+
+        public string answers { get; set; }
     }
     public class ExamModel
     {

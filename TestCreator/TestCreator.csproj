@@ -35,6 +35,7 @@
   <ItemGroup>
     <Folder Include="Areas\Identity\Controllers\" />
     <Folder Include="Authorization\" />
+    <Folder Include="Views\Student\" />
   </ItemGroup>
 
 

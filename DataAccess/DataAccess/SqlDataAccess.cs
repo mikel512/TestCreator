@@ -440,7 +440,7 @@ namespace DataLibrary.DataAccess
                         q.questionID = (int)reader[0];
                         q.questionContent = reader[1].ToString();
                         q.isLongAnswer = (bool)reader[2];
-                        q.answers = GetQuestionAnswersList(q.questionID);
+                        //q.answers = GetQuestionAnswersList(q.questionID);
 
                         questions.Add(q);
                     }
