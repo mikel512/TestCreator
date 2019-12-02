@@ -73,7 +73,7 @@ namespace DataLibrary.DataAccess
                 command.CommandType = System.Data.CommandType.StoredProcedure;
 
                 SqlParameter content = new SqlParameter("@questionContent", nContent);
-                SqlParameter isLongAnswer = new SqlParameter("@isLongAnswer", nIsLongAnswer);
+                SqlParameter isLongAnswer = new SqlParameter("@isLongAnswer", (nIsLongAnswer == false)? 0:1);
                 SqlParameter testID = new SqlParameter("@testID", nTestID);
 
                 command.Parameters.Add(content);
@@ -94,7 +94,7 @@ namespace DataLibrary.DataAccess
                 command.CommandType = System.Data.CommandType.StoredProcedure;
 
                 SqlParameter content = new SqlParameter("@answerContent", nContent);
-                SqlParameter isLongAnswer = new SqlParameter("@isLongAnswer", nIsLongAnswer);
+                SqlParameter isLongAnswer = new SqlParameter("@isLongAnswer", (nIsLongAnswer == false) ? 0 : 1);
                 SqlParameter testID = new SqlParameter("@questionID", nQuestionID);
 
                 command.Parameters.Add(content);
@@ -418,6 +418,33 @@ namespace DataLibrary.DataAccess
 
             return tests;
         }
+        public ExamModel GetExamById(int examId)
+        {
+            var exam = new ExamModel();
+
+            string connectionString = GetConnectionString();
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                SqlCommand command = new SqlCommand("Get_Test_By_Exam_ID", connection);
+                command.CommandType = System.Data.CommandType.StoredProcedure;
+                SqlParameter id = new SqlParameter("@test_id", examId);
+
+                command.Parameters.Add(id);
+                SqlDataReader reader = command.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        exam.testID = (int)reader[0];
+                        exam.testTitle = reader[1].ToString();
+                        exam.classID = (int)reader[2];
+                    }
+                }
+            }
+            return exam;
+        }
         public List<QuestionModel> GetTestQuestionList(int testID)
         {
             List<QuestionModel> questions = new List<QuestionModel>();
@@ -427,9 +454,11 @@ namespace DataLibrary.DataAccess
             {
                 connection.Open();
 
-                SqlCommand command = new SqlCommand("Get_Test_Question_List", connection);
+                SqlCommand command = new SqlCommand("Get_Question_List_By_Exam_Id", connection);
                 command.CommandType = System.Data.CommandType.StoredProcedure;
+                SqlParameter id = new SqlParameter("@test_id", testID);
 
+                command.Parameters.Add(id);
                 SqlDataReader reader = command.ExecuteReader();
                 if (reader.HasRows)
                 {
@@ -440,7 +469,6 @@ namespace DataLibrary.DataAccess
                         q.questionID = (int)reader[0];
                         q.questionContent = reader[1].ToString();
                         q.isLongAnswer = (bool)reader[2];
-                        //q.answers = GetQuestionAnswersList(q.questionID);
 
                         questions.Add(q);
                     }
@@ -458,9 +486,11 @@ namespace DataLibrary.DataAccess
             {
                 connection.Open();
 
-                SqlCommand command = new SqlCommand("Get_Question_Answer_List", connection);
+                SqlCommand command = new SqlCommand("Get_Answer_List_By_Question_Id", connection);
                 command.CommandType = System.Data.CommandType.StoredProcedure;
+                SqlParameter id = new SqlParameter("@answer_id", questionID);
 
+                command.Parameters.Add(id);
                 SqlDataReader reader = command.ExecuteReader();
                 if (reader.HasRows)
                 {

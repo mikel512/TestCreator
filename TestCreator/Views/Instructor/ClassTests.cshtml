@@ -17,7 +17,8 @@
         {
             <tr>
                 <th scope="row" class="" width="800">
-                    @Html.DisplayName(item.testTitle)
+                    <a asp-controller="Instructor" asp-action="ExamCreation"
+                       asp-route-examId="@item.testID">@item.testTitle</a>
                 </th>
             </tr>
         }

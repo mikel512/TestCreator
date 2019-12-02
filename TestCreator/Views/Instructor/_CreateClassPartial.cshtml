@@ -1,10 +1,11 @@
 ﻿@model DataLibrary.Models.ClassModel
-    <form asp-action="CreateClassAJAX" asp-controller="Instructor"
-          data-ajax="true"
-          data-ajax-method="POST"
-          data-ajax-mode="replace"
-          data-ajax-update="#ajaxresult">
+<form asp-action="CreateClassAJAX" asp-controller="Instructor"
+      data-ajax="true"
+      data-ajax-method="POST"
+      data-ajax-mode="replace"
+      data-ajax-update="#ajaxresult">
 
+    <div class="modal-body">
         <div id="ajaxresult">
             <div asp-validation-summary="All" class="text-danger"></div>
 
@@ -24,6 +25,10 @@
                 <span asp-validation-for="classSubject" class="text-danger"></span>
             </div>
 
-            <button type="submit" class="btn btn-primary">Submit</button>
         </div>
-    </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Create</button>
+    </div>
+</form>

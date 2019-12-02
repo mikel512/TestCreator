@@ -1,6 +1,10 @@
-﻿@model DataLibrary.Models.QuestionModel
+﻿@using DataLibrary.Models
+@model DataLibrary.Models.QuestionModel
 @{
     ViewData["Title"] = "Exam Creation";
+    var qModel = (QuestionModel)ViewData["QuestionInputModel"];
+    var exam = (ExamModel)ViewData["ExamGetModel"];
+    int counter = 1;
     //ClassModel c = (ClassModel)ViewData["ClassData"];
     //QuestionModel q = (QuestionModel)ViewData["QuestionData"];
     List<SelectListItem> Types = new List<SelectListItem>
@@ -17,7 +21,7 @@
 <div id="div_container_body">
 
     <!-- Create a Question -->
-    <div id="div_question_create">
+    <div id="div_question_create" class="">
         <h3 id="h_create_title"> Create A Question </h3>
             @*This form will POST the question and answers through AJAX*@
             <form asp-action="CreateQuestionAnswerAJAX" asp-controller="Instructor"
@@ -30,35 +34,39 @@
                     <div asp-validation-summary="All" class="text-danger"></div>
 
                     <div class="form-group">
-                        <label for="name">Class Name</label>
-                        <input type="text" class="form-control" asp-for="questionContent"
+                        <input type="text" class="form-control" asp-for=questionContent
                                id="testTileId" aria-describedby="nameHelp"
-                               placeholder="Enter class name">
-                        <span asp-validation-for="questionContent" class="text-danger"></span>
+                               placeholder="Enter question to be shown on test">
+                        <span asp-validation-for=questionContent class="text-danger"></span>
+                        <input type="number" asp-for="testID" value="@exam.testID" style="display:none"/>
                     </div>
+                    <hr />
 
                     @*Question Type dropdown menu*@
-                    <select asp-for="QuestionType" asp-items="Types" ></select>
+                    <select asp-for="QuestionType" asp-items="Types" id="questionSelector"></select>
 
-                    <!-- Long Answer Div -->
-                    <div id="div_long_answer" class="div_off_question">
-                        <h5 class="h_question_type"> Long Answer </h5>
-                        <p class="p_notes"> Enter the question which will be shown on the exam: </p>
-                        <textarea class="question_text" placeholder="Question Text..."></textarea>
+                    <div id="Multiple" class="div_edit_question divAnswers" style="display:none">
+                        <h5 class="h_question_type"> Answers </h5>
+                        <p class="p_notes"> (Enter answers seperated by commas) </p>
+                        <input type="text" asp-for="answers" 
+                               class="answer_text" placeholder="Answer Text..."/>
                         <hr id="hr_toolbar" />
-                        <button id="button_add_question"> Add Question </button>
                     </div>
 
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </div>
             </form>
-        <input id="input_question_name" type="text" name="question_name" placeholder="Question Title..." required="required" />
         <br />
         <br />
 
         <hr id="hr_toolbar" />
+        <div class="container-fluid " id="qNameShow" style="display:none">
+            <input type="text" id="questionNameBox" />
+
+        </div>
 
 
+    <div style="display:none">
         @*Question Type dropdown menu*@
         <select id="select_question_type" name="question_type" onchange="Clicked_QuestionType()">
             <option value="multiple_choice" selected="selected"> Multiple Choice </option>
@@ -86,7 +94,15 @@
             <hr id="hr_toolbar" />
             <button id="button_add_question"> Add Question </button>
         </div>
-
+        <!-- Long Answer Div -->
+        <div id="div_long_answer" class="div_off_question">
+            <h5 class="h_question_type"> Long Answer </h5>
+            <p class="p_notes"> Enter the question which will be shown on the exam: </p>
+            <textarea class="question_text" placeholder="Question Text..."></textarea>
+            <hr id="hr_toolbar" />
+            <button id="button_add_question"> Add Question </button>
+        </div>
+    </div>
 
         <!-- New Exam Popup Div -->
         <div id="div_new_exam" class="div_new_exam_off">
@@ -106,10 +122,15 @@
     </div>
 
     <!-- List of Questions -->
-    <div id="div_list_question">
+    <div id="div_list_question" class="">
         <h3 id="h_list_question"> Questions </h3>
         <hr id="hr_toolbar" />
-        <button class="button_question_list"> Question 1 </button>
+        @foreach(var item in exam.questions )
+        {
+            <button class="btn btn-light qBtnGroup" id="@item.questionID" onclick="questionChange(@item.questionID, @exam.questions);">Question @counter</button>
+            counter += 1;
+        }
+        @*<button class="button_question_list"> Question 1 </button>
         <button class="button_question_list"> Question 2 </button>
         <button class="button_question_list"> Question 3 </button>
         <button class="button_question_list"> Question 1 </button>
@@ -117,7 +138,7 @@
         <button class="button_question_list"> Question 3 </button>
         <button class="button_question_list"> Question 1 </button>
         <button class="button_question_list"> Question 2 </button>
-        <button class="button_question_list"> Question 3 </button>
+        <button class="button_question_list"> Question 3 </button>*@
     </div>
 </div>
 

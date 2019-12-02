@@ -17,6 +17,7 @@ namespace DataLibrary.Models
     public class QuestionModel
     {
         public int questionID { get; set; }
+        public int testID { get; set; }
 
         [Required]
         [Display(Name ="Question content")]
@@ -30,6 +31,8 @@ namespace DataLibrary.Models
         public string QuestionType { get; set; }
 
         public string answers { get; set; }
+
+        public List<AnswerModel> multipleAnswers { get; set; }
     }
     public class ExamModel
     {

@@ -45,6 +45,25 @@ namespace TestCreator.Controllers
             ViewData["TestData"] = new ExamModel();
             return View();
         }
+        [HttpGet("{examId:int}")]
+        public IActionResult ExamCreation(int examId)
+        {
+            var access = new SqlDataAccess();
+            var exam = access.GetExamById(examId);
+            exam.questions = access.GetTestQuestionList(examId);
+            // Get answers for questions that have multiple choice
+            foreach(var item in exam.questions)
+            {
+                if(item.isLongAnswer == false)
+                {
+                    item.multipleAnswers = access.GetQuestionAnswersList(item.questionID);
+                }
+            }
+
+            ViewData["ExamGetModel"] = exam;
+            ViewData["QuestionInputModel"] = new QuestionModel();
+            return View();
+        }
 
         public IActionResult ClassTests(int classId, string className)
         {
@@ -61,9 +80,9 @@ namespace TestCreator.Controllers
         [HttpPost]
         public IActionResult CreateClassAJAX(ClassModel classModel)
         {
-            var access = new SqlDataAccess();
             ClaimsPrincipal currentUser = this.User;
             string currentUserId = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var access = new SqlDataAccess();
             if (ModelState.IsValid)
             {
                 access.CreateClass(classModel.className, classModel.classSubject, currentUserId);
@@ -75,14 +94,27 @@ namespace TestCreator.Controllers
         public IActionResult CreateExamAJAX(ExamModel examModel)
         {
             var access = new SqlDataAccess();
-            ClaimsPrincipal currentUser = this.User;
-            string currentUserId = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
             if (ModelState.IsValid)
             {
                 access.CreateTest(examModel.testTitle, examModel.classID);
                 return RedirectToAction("ExamCreation");
             }
             return View();
+        }
+        [HttpPost]
+        public IActionResult CreateQuestionAnswerAJAX(QuestionModel questionModel)
+        {
+            var access = new SqlDataAccess();
+            if (ModelState.IsValid)
+            {
+                access.CreateQuestion(
+                    questionModel.questionContent, 
+                    (questionModel.QuestionType == "Multiple")? false : true,
+                    questionModel.testID);
+                return RedirectToAction("ExamCreation", new { examId = questionModel.testID });
+            }
+            return View("Index");
+
         }
         [HttpPost]
         public IActionResult CreateNewExam(string examName, int classId)
