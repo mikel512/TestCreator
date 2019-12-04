@@ -94,10 +94,11 @@ namespace TestCreator.Controllers
         public IActionResult CreateExamAJAX(ExamModel examModel)
         {
             var access = new SqlDataAccess();
+            int newRow = 0;
             if (ModelState.IsValid)
             {
-                access.CreateTest(examModel.testTitle, examModel.classID);
-                return RedirectToAction("ExamCreation");
+                newRow = access.CreateTest(examModel.testTitle, examModel.classID);
+                return RedirectToAction("ExamCreation", new { examId = newRow });
             }
             return View();
         }
@@ -116,16 +117,6 @@ namespace TestCreator.Controllers
             return View("Index");
 
         }
-        [HttpPost]
-        public IActionResult CreateNewExam(string examName, int classId)
-        {
-            var access = new SqlDataAccess();
-            access.CreateTest(examName, classId);
-            var classroom = access.GetClassroomById(classId);
-            
-            return Json(classroom);
-        }
-
         #endregion
     }
 }
