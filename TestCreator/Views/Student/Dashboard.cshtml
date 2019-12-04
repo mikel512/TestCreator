@@ -72,8 +72,8 @@
                                     <br /> <h7>Instructor: <small>...</small></h7>
                                 </p>
                                 <div class="form-group">
-                                    <button asp-controller="Student" asp-action="ClassView" type="submit" class="btn btn-primary">Open</button>
-                                    <button type="submit" class="btn btn-danger">Remove</button>
+                                    <a asp-controller="Student" asp-action="ClassView" asp-route-classID="@item.classID" class="btn btn-primary">Open</a>
+                                    <a class="btn btn-danger">Remove</a>
                                 </div>
                             </div>
                         </div>

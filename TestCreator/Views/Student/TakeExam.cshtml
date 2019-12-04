@@ -1,0 +1,64 @@
+﻿@using DataLibrary.Models
+@{
+    ViewData["Title"] = "TakeExam";
+
+    int count = 1;
+    ExamModel exam = (ExamModel)ViewData["exam"];
+}
+
+
+
+
+<div class="container-fluid">
+    <div class="card">
+
+        <!-- Header -->
+        <div class="card-header">
+            <h3 style="display: inline-block"> @exam.testTitle </h3>
+        </div>
+
+        <!-- Body -->
+        <div class="card-body">
+            <div class="container-fluid">
+                <form>
+                    <ul class="list-group">
+
+                        @foreach (QuestionModel q in exam.questions.ToArray())
+                        {
+                            <!-- Item -->
+                            <li class="list-group-item">
+                                <h6 style="display:inline-block">Question @count)</h6>
+                                <p>@q.questionContent</p>
+
+                                @if (q.isLongAnswer)
+                                {
+                                    <input id="answer_@count" type="text" class="form-control" placeholder="Answer..." />
+                                }
+                                else
+                                {
+                                    <div class="btn-group">
+
+                                        @foreach (AnswerModel a in q.multipleAnswers.ToArray())
+                                        {
+                                            <button type="button" class="btn btn-info">@a.answerContent</button>
+                                        }
+                                    </div>
+
+                                }
+
+                            </li>
+
+                            count++;
+                        }
+
+                    </ul>
+                </form>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="card-footer">
+            <a asp-controller="Student" asp-action="SubmitExam" asp-route-nClassID="@exam.classID" class="btn btn-success">Submit</a>
+        </div>
+    </div>
+</div>

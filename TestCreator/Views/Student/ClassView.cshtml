@@ -80,7 +80,7 @@
     <div class="card">
         <!-- Big Heading -->
         <div class="card-header">
-            <h3>CS 458 - <small>Software Engineering</small></h3>
+            <h3>@ViewData["className"] - <small>@ViewData["classID"]</small></h3>
         </div>
 
         <!-- Main Body -->
@@ -133,7 +133,7 @@
                             <ul class="list-group">
 
                                 <!-- Show Exam -->
-                                @foreach (var item in ViewData["allExams"] as IEnumerable<ExamModel>)
+                                @foreach (var item in ViewData["classExams"] as IEnumerable<ExamModel>)
                                 {
                                     <li class="list-group-item">
                                         <h5 style="display: inline-block">@item.testTitle</h5>
@@ -151,7 +151,7 @@
                                                     <h7>Attempts: 1 / 1 </h7>
                                                 </li>
                                                 <li class="list-group-item" style="border: none; border-left: 1px solid rgba(0, 0, 0, 0.125)">
-                                                    <button class="btn btn-success">Take Exam</button>
+                                                    <a asp-controller="Student" asp-action="TakeExam" asp-route-examID="@item.testID" class="btn btn-success">Take Exam</a>
                                                 </li>
                                             </ul>
                                         </div>

@@ -31,13 +31,31 @@ namespace TestCreator.Controllers
 
             return View();
         }
+
         [AllowAnonymous]
-        public IActionResult ClassView()
+        [HttpGet]
+        public IActionResult ClassView(int classID)
         {
             SqlDataAccess data = new SqlDataAccess();
-            List<ExamModel> allExams = data.GetAllExamsList();
+            List<ExamModel> classExams = data.GetTestByClassId(classID);
 
-            ViewData["allExams"] = allExams;
+            string className = data.GetClassroomById(classID).className;
+
+            ViewData["classExams"] = classExams;
+            ViewData["className"] = className;
+            ViewData["classID"] = classID;
+
+            return View();
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        public IActionResult TakeExam(int examID)
+        {
+            SqlDataAccess data = new SqlDataAccess();
+            ExamModel exam = data.GetExamById(examID);
+
+            ViewData["exam"] = exam;
 
             return View();
         }
@@ -53,6 +71,13 @@ namespace TestCreator.Controllers
             data.AddStudentToClass(currentUserId, classID);
 
             return RedirectToAction("Dashboard");
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        public IActionResult SubmitExam(int nClassID)
+        {
+            return RedirectToAction("ClassView", new { classID = nClassID } );
         }
     }
 }

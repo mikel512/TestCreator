@@ -549,6 +549,7 @@ namespace DataLibrary.DataAccess
                         exam.testID = (int)reader[0];
                         exam.testTitle = reader[1].ToString();
                         exam.classID = (int)reader[2];
+                        exam.questions = GetTestQuestionList(examId);
                     }
                 }
             }
