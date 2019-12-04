@@ -19,23 +19,23 @@ namespace TestCreator.Controllers
         public IActionResult Dashboard()
         {
             SqlDataAccess data = new SqlDataAccess();
+            
+            ClaimsPrincipal currentUser = this.User;
+            string currentUserId = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            List<ClassModel> myClasses = data.GetStudentClassList(currentUserId);
             List<ClassModel> allClasses = data.GetAllClassesList();
 
             ViewData["allClasses"] = allClasses;
+            ViewData["myClasses"] = myClasses;
 
             return View();
         }
-
-        // Shows the class tests for the student
         [AllowAnonymous]
-        [HttpGet("{classId:int}")]
-        public IActionResult ClassView(int classId)
+        public IActionResult ClassView()
         {
-            ClaimsPrincipal currentUser = this.User;
-            string currentUserId = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var access = new SqlDataAccess();
             SqlDataAccess data = new SqlDataAccess();
-            List<ExamModel> allExams = data.GetTestByClassId(classId);
+            List<ExamModel> allExams = data.GetAllExamsList();
 
             ViewData["allExams"] = allExams;
 
@@ -43,13 +43,16 @@ namespace TestCreator.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPost]
         public IActionResult AddClassAJAX(int classID)
         {
+            SqlDataAccess data = new SqlDataAccess();
 
-            Debug.WriteLine("*** Added Class: " + classID.ToString());
+            ClaimsPrincipal currentUser = this.User;
+            string currentUserId = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
 
-            return View("Dashboard");
+            data.AddStudentToClass(currentUserId, classID);
+
+            return RedirectToAction("Dashboard");
         }
     }
 }
