@@ -1,4 +1,5 @@
-﻿create table [dbo].[student]
+﻿
+create table [dbo].[student]
 (
 	[studentID]		INT NOT NULL PRIMARY KEY IDENTITY(20000, 11),
 	[f_name]		NVARCHAR(50) NOT NULL,
