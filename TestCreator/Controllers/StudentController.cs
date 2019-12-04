@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using DataLibrary.Models;
 using DataLibrary.DataAccess;
+using System.Security.Claims;
 
 namespace TestCreator.Controllers
 {
@@ -18,9 +19,15 @@ namespace TestCreator.Controllers
         public IActionResult Dashboard()
         {
             SqlDataAccess data = new SqlDataAccess();
+            
+            ClaimsPrincipal currentUser = this.User;
+            string currentUserId = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            List<ClassModel> myClasses = data.GetStudentClassList(currentUserId);
             List<ClassModel> allClasses = data.GetAllClassesList();
 
             ViewData["allClasses"] = allClasses;
+            ViewData["myClasses"] = myClasses;
 
             return View();
         }
@@ -36,13 +43,16 @@ namespace TestCreator.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet]
         public IActionResult AddClassAJAX(int classID)
         {
+            SqlDataAccess data = new SqlDataAccess();
 
-            Debug.WriteLine("*** Added Class: " + classID.ToString());
+            ClaimsPrincipal currentUser = this.User;
+            string currentUserId = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
 
-            return View("Dashboard");
+            data.AddStudentToClass(currentUserId, classID);
+
+            return RedirectToAction("Dashboard");
         }
     }
 }

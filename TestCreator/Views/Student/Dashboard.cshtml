@@ -40,7 +40,7 @@
 
                             @foreach (var item in ViewData["allClasses"] as IEnumerable<ClassModel>)
                             {
-                                <a method="get" asp-controller="Student" asp-action="AddClassAJAX" asp-route-classID="@item.classID" id="@item.classID" class="dropdown-item">@item.className</a>
+                                <a method="post" asp-controller="Student" asp-action="AddClassAJAX" asp-route-classID="@item.classID" id="@item.classID" class="dropdown-item">@item.className</a>
                             }
                         </div>
                     </div>
@@ -55,52 +55,31 @@
             <!-- List of Classes -->
             <ul id="listClasses" class="list-group list-group-horizontal">
 
-                <!-- First Class -->
-                <li class="list-group-item">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5> CS 458 </h5>
-                        </div>
-
-                        <div class="card-body">
-
-                            <p>
-                                <h7>Class Name: <small>Software Engineering</small></h7>
-                                <br /> <h7>Class ID: <small>12345</small></h7>
-                                <br /> <h7>Class Subject: <small>CS</small></h7>
-                                <br /> <h7>Instructor: <small>Bogle</small></h7>
-                            </p>
-                            <div class="form-group">
-                                <button asp-controller="Student" asp-action="ClassView" type="submit" class="btn btn-primary">Open</button>
-                                <button type="submit" class="btn btn-danger">Remove</button>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-
-                <!-- Second Class -->
-                <li class="list-group-item">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5> CS 346 </h5>
-                        </div>
-                        <div class="card-body">
-
-                            <p>
-                                <h7>Class Name: <small>Telecommunications & Networking</small></h7>
-                                <br /> <h7>Class ID: <small>54321</small></h7>
-                                <br /> <h7>Class Subject: <small>CS</small></h7>
-                                <br /> <h7>Instructor: <small>Tuttle</small></h7>
-                            </p>
-
-                            <div class="form-group">
-                                <button asp-controller="Student" asp-action="ClassView" type="submit" class="btn btn-primary">Open</button>
-                                <button type="submit" class="btn btn-danger">Remove</button>
+                @foreach (var item in ViewData["myClasses"] as IEnumerable<ClassModel>)
+                {
+                    <!-- First Class -->
+                    <li class="list-group-item">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5> @item.className </h5>
                             </div>
 
+                            <div class="card-body">
+
+                                <p>
+                                    <br /> <h7>Class ID: <small>@item.classID</small></h7>
+                                    <br /> <h7>Class Subject: <small>@item.classSubject</small></h7>
+                                    <br /> <h7>Instructor: <small>...</small></h7>
+                                </p>
+                                <div class="form-group">
+                                    <button asp-controller="Student" asp-action="ClassView" type="submit" class="btn btn-primary">Open</button>
+                                    <button type="submit" class="btn btn-danger">Remove</button>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </li>
+                    </li>
+                }
+
             </ul>
         </div>
     </div>
