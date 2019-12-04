@@ -40,6 +40,13 @@
 
 
   <ItemGroup>
+    <None Include="wwwroot\images\gp3.jpg" />
+    <None Include="wwwroot\images\gp4.jpg" />
+    <None Include="wwwroot\images\group_photo_1.jpg" />
+  </ItemGroup>
+
+
+  <ItemGroup>
     <ProjectReference Include="..\DataAccess\DataLibrary.csproj" />
   </ItemGroup>
 
