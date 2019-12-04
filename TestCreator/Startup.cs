@@ -34,7 +34,7 @@ namespace TestCreator
             services.AddDbContext<TestCreatorContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<TestUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddDefaultIdentity<TestUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<TestCreatorContext>();
             services.AddRazorPages();
