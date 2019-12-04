@@ -1,0 +1,330 @@
+﻿@using DataLibrary.Models;
+@model DataLibrary.Models.ExamModel
+@{
+    ViewData["Title"] = "ClassView";
+}
+
+<script type="text/javascript">
+
+    var active = "btn btn-block btn-info";
+    var nonActive = "btn btn-block btn-outline-info";
+
+    function OnClick_ActiveExams() {
+        var divActiveExams = document.getElementById("divActiveExams");
+        var divCompletedExams = document.getElementById("divCompletedExams");
+        var divViewGrades = document.getElementById("divViewGrades");
+
+        var buttonActiveExams = document.getElementById("buttonActiveExams");
+        var buttonCompletedExams = document.getElementById("buttonCompletedExams");
+        var buttonViewGrades = document.getElementById("buttonViewGrades");
+
+        buttonActiveExams.setAttribute("class", active);
+        buttonCompletedExams.setAttribute("class", nonActive);
+        buttonViewGrades.setAttribute("class", nonActive);
+
+        divActiveExams.setAttribute("class", "show");
+        divCompletedExams.setAttribute("class", "noshow");
+        divViewGrades.setAttribute("class", "noshow");
+    }
+    function OnClick_CompletedExams() {
+
+        var divActiveExams = document.getElementById("divActiveExams");
+        var divCompletedExams = document.getElementById("divCompletedExams");
+        var divViewGrades = document.getElementById("divViewGrades");
+
+        var buttonActiveExams = document.getElementById("buttonActiveExams");
+        var buttonCompletedExams = document.getElementById("buttonCompletedExams");
+        var buttonViewGrades = document.getElementById("buttonViewGrades");
+
+        buttonActiveExams.setAttribute("class", nonActive);
+        buttonCompletedExams.setAttribute("class", active);
+        buttonViewGrades.setAttribute("class", nonActive);
+
+        divCompletedExams.setAttribute("class", "show");
+        divActiveExams.setAttribute("class", "noshow");
+        divViewGrades.setAttribute("class", "noshow");
+    }
+    function OnClick_ViewGrades() {
+        var divActiveExams = document.getElementById("divActiveExams");
+        var divCompletedExams = document.getElementById("divCompletedExams");
+        var divViewGrades = document.getElementById("divViewGrades");
+
+        var buttonActiveExams = document.getElementById("buttonActiveExams");
+        var buttonCompletedExams = document.getElementById("buttonCompletedExams");
+        var buttonViewGrades = document.getElementById("buttonViewGrades");
+
+        buttonActiveExams.setAttribute("class", nonActive);
+        buttonCompletedExams.setAttribute("class", nonActive);
+        buttonViewGrades.setAttribute("class", active);
+
+        divViewGrades.setAttribute("class", "show");
+        divCompletedExams.setAttribute("class", "noshow");
+        divActiveExams.setAttribute("class", "noshow");
+    }
+
+</script>
+
+<style>
+    .noshow {
+        display: none !important;
+    }
+
+    .show {
+        display: initial !important;
+    }
+</style>
+
+
+<!-- Outside Container -->
+<div class="container">
+    <div class="card">
+        <!-- Big Heading -->
+        <div class="card-header">
+            <h3>CS 458 - <small>Software Engineering</small></h3>
+        </div>
+
+        <!-- Main Body -->
+        <div class="card-body">
+
+            <!-- make it go across -->
+            <div class="row">
+                <div class="col-3">
+
+                    <!-- Options Window -->
+                    <div class="card">
+
+                        <!-- Header -->
+                        <div class="card-header">
+                            <h7>Class Options</h7>
+                        </div>
+
+                        <!-- Body -->
+                        <div class="card-body">
+
+                            <!-- List of Buttons -->
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    <button id="buttonActiveExams" onclick="OnClick_ActiveExams()" class="btn btn-block btn-info">Active Exams</button>
+                                </li>
+                                <li class="list-group-item">
+                                    <button id="buttonCompletedExams" onclick="OnClick_CompletedExams()" class="btn btn-block btn-outline-info">Completed Exams</button>
+                                </li>
+                                <li class="list-group-item">
+                                    <button id="buttonViewGrades" onclick="OnClick_ViewGrades()" class="btn btn-block btn-outline-info">View Grades</button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Body-->
+                <div class="col-9">
+                    <div class="container-fluid">
+
+                        <!-- Active Exams -->
+                        <div id="divActiveExams" class="show">
+
+                            <!-- Title -->
+                            <div class="text-center">
+                                <h3>Active Exams</h3>
+                            </div>
+
+                            <!-- Exam List -->
+                            <ul class="list-group">
+
+                                <!-- Show Exam -->
+                                @foreach (var item in ViewData["allExams"] as IEnumerable<ExamModel>)
+                                {
+                                    <li class="list-group-item">
+                                        <h5 style="display: inline-block">@item.testTitle</h5>
+                                        <div class="container-fluid" style="display:inline">
+
+                                            <!-- List of Details-->
+                                            <ul class="list-group list-group-horizontal">
+                                                <li class="list-group-item">
+                                                    <h7>Percent: 37.5% </h7>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <h7>Score: 3 / 8</h7>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <h7>Attempts: 1 / 1 </h7>
+                                                </li>
+                                                <li class="list-group-item" style="border: none; border-left: 1px solid rgba(0, 0, 0, 0.125)">
+                                                    <button class="btn btn-success">Take Exam</button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+
+                        <!-- Completed Exams -->
+                        <div id="divCompletedExams" class="noshow">
+
+                            <!-- Title -->
+                            <div class="text-center">
+                                <h3>Completed Exams</h3>
+                            </div>
+
+                            <!-- Exam List -->
+                            <ul class="list-group">
+
+                                <!-- First Exam -->
+                                <li class="list-group-item">
+                                    <h5 style="display: inline-block">Exam #1 : </h5>
+
+
+                                    <div class="container-fluid" style="display:inline">
+
+                                        <!-- List of Details-->
+                                        <ul class="list-group list-group-horizontal">
+                                            <li class="list-group-item">
+                                                <h7> Percent: 37.5% </h7>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <h7> Score: 3 / 8 </h7>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <h7> Attempts: 1 / 1 </h7>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+
+                                <!-- Second Exam -->
+                                <li class="list-group-item">
+                                    <h5 style="display: inline-block">Exam #2 : </h5>
+
+
+                                    <div class="container-fluid" style="display:inline">
+
+                                        <!-- List of Details-->
+                                        <ul class="list-group list-group-horizontal">
+                                            <li class="list-group-item">
+                                                <h7> Percent: 37.5% </h7>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <h7> Score: 3 / 8 </h7>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <h7> Attempts: 1 / 1 </h7>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+
+                                <!-- Third Exam -->
+                                <li class="list-group-item">
+                                    <h5 style="display: inline-block">Exam #3 : </h5>
+
+
+                                    <div class="container-fluid" style="display:inline">
+
+                                        <!-- List of Details-->
+                                        <ul class="list-group list-group-horizontal">
+                                            <li class="list-group-item">
+                                                <h7> Percent: 37.5% </h7>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <h7> Score: 3 / 8 </h7>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <h7> Attempts: 1 / 1 </h7>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!--  Show Grades -->
+                        <div id="divViewGrades" class="noshow">
+
+                            <!-- Title -->
+                            <div class="text-center">
+                                <h3>My Grades</h3>
+                            </div>
+
+                            <!-- Exam List -->
+                            <ul class="list-group">
+
+                                <!-- My Grades -->
+                                <li class="list-group-item">
+                                    <h5 style="display: inline-block">My Total Grade: <small>86.7%</small></h5>
+                                </li>
+
+                                <!-- First Exam -->
+                                <li class="list-group-item">
+                                    <h5 style="display: inline-block">Exam #1 : </h5>
+
+
+                                    <div class="container-fluid" style="display:inline">
+
+                                        <!-- List of Details-->
+                                        <ul class="list-group list-group-horizontal">
+                                            <li class="list-group-item">
+                                                <h7> Average: 78.6% </h7>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <h7> Low: 13.1% </h7>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <h7> High: 98.4% </h7>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+
+                                <!-- Second Exam -->
+                                <li class="list-group-item">
+                                    <h5 style="display: inline-block">Exam #2 : </h5>
+
+
+                                    <div class="container-fluid" style="display:inline">
+
+                                        <!-- List of Details-->
+                                        <ul class="list-group list-group-horizontal">
+                                            <li class="list-group-item">
+                                                <h7> Average: 78.6% </h7>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <h7> Low: 13.1% </h7>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <h7> High: 98.4% </h7>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+
+                                <!-- Third Exam -->
+                                <li class="list-group-item">
+                                    <h5 style="display: inline-block">Exam #3 : </h5>
+
+
+                                    <div class="container-fluid" style="display:inline">
+
+                                        <!-- List of Details-->
+                                        <ul class="list-group list-group-horizontal">
+                                            <li class="list-group-item">
+                                                <h7> Average: 78.6% </h7>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <h7> Low: 13.1% </h7>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <h7> High: 98.4% </h7>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

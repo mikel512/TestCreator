@@ -40,6 +40,12 @@
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Student" asp-action="Dashboard">Student Dashboard</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Student" asp-action="ClassView">Class View</a>
+                        </li>
                         @if (this.User.IsInRole("Instructor"))
                         {
                             <partial name="_InstructorNavPartial" />

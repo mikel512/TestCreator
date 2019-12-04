@@ -290,6 +290,71 @@ namespace DataLibrary.DataAccess
         // =============== //
         // === QUERIES === //
         // =============== //
+
+
+
+        public List<ClassModel> GetAllClassesList()
+        {
+            var classrooms = new List<ClassModel>();
+
+            string connectionString = GetConnectionString();
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                SqlCommand command = new SqlCommand("select * from Get_All_Class_List()", connection);
+
+                SqlDataReader reader = command.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        ClassModel classModel = new ClassModel()
+                        {
+                            classID = (int)reader[0],
+                            className = (string)reader[1],
+                            classSubject = (string)reader[2]
+                        };
+
+                        classrooms.Add(classModel);
+                    }
+                }
+            }
+
+            return classrooms;
+        }
+        public List<ExamModel> GetAllExamsList()
+        {
+            List<ExamModel> list = new List<ExamModel>();
+
+            string connectionString = GetConnectionString();
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                SqlCommand command = new SqlCommand("select * from Get_All_Tests_List()", connection);
+
+                SqlDataReader reader = command.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        ExamModel exam = new ExamModel()
+                        {
+                            testID = (int)reader[0],
+                            testTitle = (string)reader[1]
+                        };
+
+                        list.Add(exam);
+                    }
+                }
+            }
+
+            return list;
+        }
+
+
+
         public List<ClassModel> GetInstructorClassrooms(string instructorId)
         {
             var classrooms = new List<ClassModel>();
