@@ -43,9 +43,10 @@ namespace DataLibrary.DataAccess
                 command.ExecuteNonQuery();
             }
         }
-        public void CreateTest(string nTestTitle, int nClassID)
+        public int CreateTest(string nTestTitle, int nClassID)
         {
             string connectionString = GetConnectionString();
+            int newRowId;
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
@@ -60,7 +61,9 @@ namespace DataLibrary.DataAccess
                 command.Parameters.Add(classID);
 
                 command.ExecuteNonQuery();
+                newRowId = (int)command.Parameters["@newId"].Value;
             }
+            return newRowId;
         }
         public void CreateQuestion(string nContent, bool nIsLongAnswer, int nTestID)
         {
