@@ -15,7 +15,6 @@ namespace TestCreator.Controllers
     [Authorize(Roles ="Student")]
     public class StudentController : Controller
     {
-        [AllowAnonymous]
         public IActionResult Dashboard()
         {
             SqlDataAccess data = new SqlDataAccess();
@@ -32,7 +31,6 @@ namespace TestCreator.Controllers
             return View();
         }
 
-        [AllowAnonymous]
         [HttpGet]
         public IActionResult ClassView(int classID)
         {
@@ -48,7 +46,6 @@ namespace TestCreator.Controllers
             return View();
         }
 
-        [AllowAnonymous]
         [HttpGet]
         public IActionResult TakeExam(int examID)
         {
@@ -59,8 +56,6 @@ namespace TestCreator.Controllers
 
             return View();
         }
-
-        [AllowAnonymous]
         public IActionResult AddClassAJAX(int classID)
         {
             SqlDataAccess data = new SqlDataAccess();
@@ -73,7 +68,6 @@ namespace TestCreator.Controllers
             return RedirectToAction("Dashboard");
         }
 
-        [AllowAnonymous]
         [HttpGet]
         public IActionResult SubmitExam(int nClassID)
         {
