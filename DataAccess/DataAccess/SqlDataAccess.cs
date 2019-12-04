@@ -352,6 +352,38 @@ namespace DataLibrary.DataAccess
 
             return list;
         }
+        public List<ExamModel> GetExamsByClassId(int classId)
+        {
+            List<ExamModel> list = new List<ExamModel>();
+
+            string connectionString = GetConnectionString();
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                SqlCommand command = new SqlCommand("Get_All_Tests_By_ClassId", connection);
+                SqlParameter parameter = new SqlParameter("@class_id", classId);
+                command.Parameters.Add(parameter);
+
+                SqlDataReader reader = command.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        ExamModel exam = new ExamModel()
+                        {
+                            testID = (int)reader[0],
+                            testTitle = (string)reader[1]
+                        };
+
+                        list.Add(exam);
+                    }
+                }
+            }
+
+            return list;
+        }
+
 
 
 

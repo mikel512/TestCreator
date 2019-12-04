@@ -40,7 +40,7 @@
 
                             @foreach (var item in ViewData["allClasses"] as IEnumerable<ClassModel>)
                             {
-                                <a method="get" asp-controller="Student" asp-action="AddClassAJAX" asp-route-classID="@item.classID" id="@item.classID" class="dropdown-item">@item.className</a>
+                                <a method="post" asp-controller="Student" asp-action="AddClassAJAX" asp-route-classID="@item.classID" id="@item.classID" class="dropdown-item">@item.className</a>
                             }
                         </div>
                     </div>

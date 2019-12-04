@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using DataLibrary.Models;
 using DataLibrary.DataAccess;
+using System.Security.Claims;
 
 namespace TestCreator.Controllers
 {
@@ -24,11 +25,17 @@ namespace TestCreator.Controllers
 
             return View();
         }
+
+        // Shows the class tests for the student
         [AllowAnonymous]
-        public IActionResult ClassView()
+        [HttpGet("{classId:int}")]
+        public IActionResult ClassView(int classId)
         {
+            ClaimsPrincipal currentUser = this.User;
+            string currentUserId = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var access = new SqlDataAccess();
             SqlDataAccess data = new SqlDataAccess();
-            List<ExamModel> allExams = data.GetAllExamsList();
+            List<ExamModel> allExams = data.GetTestByClassId(classId);
 
             ViewData["allExams"] = allExams;
 
@@ -36,7 +43,7 @@ namespace TestCreator.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet]
+        [HttpPost]
         public IActionResult AddClassAJAX(int classID)
         {
 

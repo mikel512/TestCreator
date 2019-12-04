@@ -2,6 +2,7 @@
 @model DataLibrary.Models.ExamModel
 @{
     ViewData["Title"] = "ClassView";
+    var tests = (List<ExamModel>)ViewData["allExams"];
 }
 
 <script type="text/javascript">
@@ -133,7 +134,7 @@
                             <ul class="list-group">
 
                                 <!-- Show Exam -->
-                                @foreach (var item in ViewData["allExams"] as IEnumerable<ExamModel>)
+                                @foreach (var item in tests)
                                 {
                                     <li class="list-group-item">
                                         <h5 style="display: inline-block">@item.testTitle</h5>
