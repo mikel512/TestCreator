@@ -56,10 +56,11 @@ namespace DataLibrary.DataAccess
 
                 SqlParameter testTitle = new SqlParameter("@testTitle", nTestTitle);
                 SqlParameter classID = new SqlParameter("@classID", nClassID);
+                
 
                 command.Parameters.Add(testTitle);
                 command.Parameters.Add(classID);
-
+                command.Parameters.Add("@newId", System.Data.SqlDbType.Int).Direction = System.Data.ParameterDirection.Output; 
                 command.ExecuteNonQuery();
                 newRowId = (int)command.Parameters["@newId"].Value;
             }

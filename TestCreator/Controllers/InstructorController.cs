@@ -97,7 +97,7 @@ namespace TestCreator.Controllers
             int newRow = 0;
             if (ModelState.IsValid)
             {
-                access.CreateTest(examModel.testTitle, examModel.classID);
+                newRow = access.CreateTest(examModel.testTitle, examModel.classID);
                 return RedirectToAction("ExamCreation", new { examId = newRow });
             }
             return View();
