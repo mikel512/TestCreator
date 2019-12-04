@@ -9,9 +9,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Areas\Identity\Controllers\**" />
+    <Compile Remove="Authorization\**" />
     <Compile Remove="Data\Migrations\**" />
+    <Content Remove="Areas\Identity\Controllers\**" />
+    <Content Remove="Authorization\**" />
     <Content Remove="Data\Migrations\**" />
+    <EmbeddedResource Remove="Areas\Identity\Controllers\**" />
+    <EmbeddedResource Remove="Authorization\**" />
     <EmbeddedResource Remove="Data\Migrations\**" />
+    <None Remove="Areas\Identity\Controllers\**" />
+    <None Remove="Authorization\**" />
     <None Remove="Data\Migrations\**" />
   </ItemGroup>
 
@@ -29,13 +37,6 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.9.5" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.0.0" />
-  </ItemGroup>
-
-
-  <ItemGroup>
-    <Folder Include="Areas\Identity\Controllers\" />
-    <Folder Include="Authorization\" />
-    <Folder Include="Views\Student\" />
   </ItemGroup>
 
 

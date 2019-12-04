@@ -1,0 +1,86 @@
+﻿
+@using DataLibrary.Models
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+
+<style>
+
+    .list-group-item {
+        border: none !important;
+    }
+</style>
+
+<!-- Main Container -->
+<div class="container">
+
+    <!-- Main Card -->
+    <div class="card" id="listClasses">
+
+        <!-- Main Header -->
+        <div class="card-header">
+
+            <div class="row">
+                <div class="col-10">
+
+                    <!-- Title -->
+                    <h3 style="display: inline-block"> My Dashboard </h3>
+                </div>
+
+                <div class="col-2">
+
+                    <!-- Add Drop Down -->
+                    <div class="dropdown">
+                        <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
+                            Add Class
+                        </button>
+                        <div class="dropdown-menu">
+                            <div class="dropdown-header">Select your class...</div>
+
+                            @foreach (var item in ViewData["allClasses"] as IEnumerable<ClassModel>)
+                            {
+                                <a method="post" asp-controller="Student" asp-action="AddClassAJAX" asp-route-classID="@item.classID" id="@item.classID" class="dropdown-item">@item.className</a>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Card Body -->
+        <div class="card-body">
+
+            <!-- List of Classes -->
+            <ul id="listClasses" class="list-group list-group-horizontal">
+
+                @foreach (var item in ViewData["myClasses"] as IEnumerable<ClassModel>)
+                {
+                    <!-- First Class -->
+                    <li class="list-group-item">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5> @item.className </h5>
+                            </div>
+
+                            <div class="card-body">
+
+                                <p>
+                                    <br /> <h7>Class ID: <small>@item.classID</small></h7>
+                                    <br /> <h7>Class Subject: <small>@item.classSubject</small></h7>
+                                    <br /> <h7>Instructor: <small>...</small></h7>
+                                </p>
+                                <div class="form-group">
+                                    <a asp-controller="Student" asp-action="ClassView" asp-route-classID="@item.classID" class="btn btn-primary">Open</a>
+                                    <a class="btn btn-danger">Remove</a>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                }
+
+            </ul>
+        </div>
+    </div>
+</div>

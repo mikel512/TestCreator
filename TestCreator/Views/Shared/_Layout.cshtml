@@ -23,7 +23,6 @@
                 </button>
 
                 <div class="collapse navbar-collapse" id="collapse_target">
-                    <partial name="_LoginNavPartial" />
                     <ul class="navbar-nav">
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
@@ -44,11 +43,16 @@
                         {
                             <partial name="_InstructorNavPartial" />
                         }
+                        @if (this.User.IsInRole("Student"))
+                        {
+                            <partial name="_StudentNavPartial" />
+                        }
 
                     </ul>
 
                 </div>
             </div>
+            <partial name="_LoginNavPartial" />
         </nav>
 
     </header>

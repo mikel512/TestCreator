@@ -4,8 +4,8 @@ using System.Text;
 
 using System.Data.SqlClient;
 using DataLibrary.Models;
-
-
+using System.Security.Claims;
+using System.Diagnostics;
 
 namespace DataLibrary.DataAccess
 {
@@ -43,9 +43,10 @@ namespace DataLibrary.DataAccess
                 command.ExecuteNonQuery();
             }
         }
-        public void CreateTest(string nTestTitle, int nClassID)
+        public int CreateTest(string nTestTitle, int nClassID)
         {
             string connectionString = GetConnectionString();
+            int newRowId;
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
@@ -55,12 +56,15 @@ namespace DataLibrary.DataAccess
 
                 SqlParameter testTitle = new SqlParameter("@testTitle", nTestTitle);
                 SqlParameter classID = new SqlParameter("@classID", nClassID);
+                
 
                 command.Parameters.Add(testTitle);
                 command.Parameters.Add(classID);
-
+                command.Parameters.Add("@newId", System.Data.SqlDbType.Int).Direction = System.Data.ParameterDirection.Output; 
                 command.ExecuteNonQuery();
+                newRowId = (int)command.Parameters["@newId"].Value;
             }
+            return newRowId;
         }
         public void CreateQuestion(string nContent, bool nIsLongAnswer, int nTestID)
         {
@@ -104,8 +108,21 @@ namespace DataLibrary.DataAccess
                 command.ExecuteNonQuery();
             }
         }
-        public void AddStudentToClass(int nStudentID, int nClassID)
+        public void AddStudentToClass(string nStudentID, int nClassID)
         {
+            SqlDataAccess data = new SqlDataAccess();
+
+            // make sure im not already in that class
+            List<ClassModel> myClasses = data.GetStudentClassList(nStudentID);
+            foreach(ClassModel c in myClasses.ToArray())
+            {
+                Debug.WriteLine(c.classID + ", " + nClassID);
+                if (c.classID == nClassID)
+                {
+                    return;
+                }
+            }
+
             string connectionString = GetConnectionString();
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -290,6 +307,134 @@ namespace DataLibrary.DataAccess
         // =============== //
         // === QUERIES === //
         // =============== //
+
+
+        public List<ClassModel> GetStudentClassList(string studentID)
+        {
+            List<ClassModel> classrooms = new List<ClassModel>();
+
+            string connectionString = GetConnectionString();
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                SqlCommand command = new SqlCommand("Get_All_Student_Classrooms", connection);
+                command.CommandType = System.Data.CommandType.StoredProcedure;
+                SqlParameter param = new SqlParameter("@student_id", studentID);
+
+                command.Parameters.Add(param);
+                SqlDataReader reader = command.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        ClassModel classModel = new ClassModel()
+                        {
+                            classID = (int)reader[0],
+                            className = (string)reader[1],
+                            classSubject = (string)reader[2]
+                        };
+
+                        classrooms.Add(classModel);
+                    }
+                }
+            }
+            return classrooms;
+        }
+        public List<ClassModel> GetAllClassesList()
+        {
+            var classrooms = new List<ClassModel>();
+
+            string connectionString = GetConnectionString();
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                SqlCommand command = new SqlCommand("select * from Get_All_Class_List()", connection);
+
+                SqlDataReader reader = command.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        ClassModel classModel = new ClassModel()
+                        {
+                            classID = (int)reader[0],
+                            className = (string)reader[1],
+                            classSubject = (string)reader[2]
+                        };
+
+                        classrooms.Add(classModel);
+                    }
+                }
+            }
+
+            return classrooms;
+        }
+        public List<ExamModel> GetAllExamsList()
+        {
+            List<ExamModel> list = new List<ExamModel>();
+
+            string connectionString = GetConnectionString();
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                SqlCommand command = new SqlCommand("select * from Get_All_Tests_List()", connection);
+
+                SqlDataReader reader = command.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        ExamModel exam = new ExamModel()
+                        {
+                            testID = (int)reader[0],
+                            testTitle = (string)reader[1]
+                        };
+
+                        list.Add(exam);
+                    }
+                }
+            }
+
+            return list;
+        }
+        public List<ExamModel> GetExamsByClassId(int classId)
+        {
+            List<ExamModel> list = new List<ExamModel>();
+
+            string connectionString = GetConnectionString();
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                SqlCommand command = new SqlCommand("Get_All_Tests_By_ClassId", connection);
+                SqlParameter parameter = new SqlParameter("@class_id", classId);
+                command.Parameters.Add(parameter);
+
+                SqlDataReader reader = command.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        ExamModel exam = new ExamModel()
+                        {
+                            testID = (int)reader[0],
+                            testTitle = (string)reader[1]
+                        };
+
+                        list.Add(exam);
+                    }
+                }
+            }
+
+            return list;
+        }
+
+
+
+
         public List<ClassModel> GetInstructorClassrooms(string instructorId)
         {
             var classrooms = new List<ClassModel>();
@@ -440,6 +585,7 @@ namespace DataLibrary.DataAccess
                         exam.testID = (int)reader[0];
                         exam.testTitle = reader[1].ToString();
                         exam.classID = (int)reader[2];
+                        exam.questions = GetTestQuestionList(examId);
                     }
                 }
             }
